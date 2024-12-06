@@ -15,6 +15,7 @@ public class DriveSubsystem extends SubsystemBase {
   MotorControllerGroup g1;
   MotorControllerGroup g2;
   DifferentialDrive dd;
+
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
     bl = new TalonFX(1,"rio");
@@ -27,7 +28,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
     public void DiffDrive(double speed,double rotation){
-      dd.arcadeDrive(speed,rotation);
+      dd.arcadeDrive(speed,rotation,true);
     }
   @Override
   public void periodic() {

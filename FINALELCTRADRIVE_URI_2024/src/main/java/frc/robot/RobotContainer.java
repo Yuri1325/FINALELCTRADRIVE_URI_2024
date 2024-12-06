@@ -8,11 +8,14 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.IntakeSubsytem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -26,7 +29,11 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final DriveSubsystem m_DriveSubsystem;
   private DriveCommand m_DriveCommand;
+  private IntakeSubsytem m_IntakeSubsytem;
+  private IntakeCommand m_IntakeCommand;
+
   Joystick m_joystick;
+  JoystickButton m_intakeButton;
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -34,9 +41,11 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    Joystick m_joystick = new Joystick(0);
+    m_joystick = new Joystick(0);
     m_DriveSubsystem = new DriveSubsystem();
     m_DriveCommand = new DriveCommand(m_DriveSubsystem, m_joystick);
+    m_IntakeSubsytem = new IntakeSubsytem();
+    m_IntakeCommand = new IntakeCommand(m_IntakeSubsytem);
 
     // Configure the trigger bindings
     configureBindings();
@@ -52,6 +61,7 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+    m_intakeButton = new JoystickButton(m_joystick, 1);
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     new Trigger(m_exampleSubsystem::exampleCondition)
         .onTrue(new ExampleCommand(m_exampleSubsystem));
@@ -59,6 +69,7 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+    m_intakeButton.whileTrue(m_IntakeCommand);
   }
 
   /**

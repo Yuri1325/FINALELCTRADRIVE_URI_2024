@@ -4,18 +4,17 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeSubsytem;
 
-public class DriveCommand extends Command {
-  DriveSubsystem m_Subsystem;
-  Joystick m_Joystick;
-  /** Creates a new DriveCommand. */
-  public DriveCommand(DriveSubsystem subsystem,Joystick joystick) {
-    m_Subsystem = subsystem;
-    m_Joystick = joystick;
-    addRequirements(m_Subsystem);
+public class IntakeCommand extends Command {
+  IntakeSubsytem m_Subsytem;
+  /** Creates a new IntakeCommand. */
+  public IntakeCommand(IntakeSubsytem subsytem) {
+    m_Subsytem = subsytem;
+
+    addRequirements(m_Subsytem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -26,12 +25,15 @@ public class DriveCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Subsystem.DiffDrive(m_Joystick.getRawAxis(4), m_Joystick.getRawAxis(1));
+    m_Subsytem.setPistionsOut();
+    m_Subsytem.setIntakeMotor(0.3);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_Subsytem.setIntakeMotor(0);
+  }
 
   // Returns true when the command should end.
   @Override
