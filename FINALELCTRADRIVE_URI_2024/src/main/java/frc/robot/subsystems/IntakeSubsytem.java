@@ -20,15 +20,14 @@ public class IntakeSubsytem extends SubsystemBase {
   DoubleSolenoid topSolenoid;
   DoubleSolenoid bottSolenoid;
   TalonFX intakeMotor;
-  TalonFX intakeMotor2;
+  
   /** Creates a new IntakeSubsytem. */
   public IntakeSubsytem() {
     pneumaticHub = new PneumaticHub();
     pneumaticHub.enableCompressorAnalog(90,100);
     topSolenoid = pneumaticHub.makeDoubleSolenoid(2, 3);
     intakeMotor = new TalonFX(10,"rio");
-    intakeMotor2 = new TalonFX(6);
-    intakeMotor2.setInverted(true);
+  
     
   }
   public void setPistionsOut(){
@@ -36,7 +35,7 @@ public class IntakeSubsytem extends SubsystemBase {
   }
   public void setIntakeMotor(double speed){
     intakeMotor.set(speed);
-    intakeMotor2.set(speed);
+    
   }
   @Override
   public void periodic() {
